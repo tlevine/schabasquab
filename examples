@@ -1,6 +1,11 @@
-% Two-column lookup tables, with multiple tables per sheet
+% Look uptable, [] is list and () is tuple
+\above[ \left( $key $value \right) \below]
 
-\pair = \left( key, value \right)
-\row = \left( \pair , \pair \right)
+% Tidy data table, : is cons
+\left[ $header \down: \above[ $value \below] \right]
+
+% Two-column lookup tables, with multiple tables per sheet
+\pair = \left( $key $value \right)
+\row = \left( \pair \pair \right)
 \page = \above[ \row \below]
 \sheet = \above[ \page \below]
