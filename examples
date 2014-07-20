@@ -1,7 +1,7 @@
 % Look uptable, [] is list and () is tuple
 \above[ \left( $key $value \right) \below]
 
-% Tidy data table, : is cons
+% Tidy data table, : is cons. Maybe this is unnecessary.
 \left[ $header \down: \above[ $value \below] \right]
 
 % Two-column lookup tables, with multiple tables per sheet
