@@ -1,0 +1,6 @@
+% Two-column lookup tables, with multiple tables per sheet
+
+\pair = \left( key, value \right)
+\row = \left( \pair , \pair \right)
+\page = \above[ \row \below]
+\sheet = \above[ \page \below]
