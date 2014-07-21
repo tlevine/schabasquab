@@ -6,7 +6,7 @@
 -- The cell is the atomic range.
 
 data Range = HTuple [Range] | VTuple [Range]
-           | HList [Range] | VList [Range]
+           | HList  [Range] | VList  [Range]
            | Cell
 
 main = do putStr "3"
