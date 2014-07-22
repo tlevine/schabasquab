@@ -37,13 +37,18 @@ validate :: Grammar -> Box -> Bool
 validate (Box grammar) box
   | height grammar == height box && width box == width box = all $ mapGrid validate box
   | otherwise = False
-validate (Fill grammar) bigBox
+validate (LeftFill grammar) bigBox
   | height grammar == height box = validate grammar box && validate rest
+  | width grammar == 0 || height fill == 0 = True
+  | otherwise = False
+  where
+    box, rest = splitFill grammar bigBox
+validate (DownFill grammar) bigBox
   | width grammar == width grid = validate grammar box && validate rest
   | width grammar == 0 || height fill == 0 = True
   | otherwise = False
   where
-    box, rest = splitFill fill bigBox
+    box, rest = splitFill grammar bigBox
 
 splitFill :: Fill -> Box -> (Box, Fill)
 splitFill (LeftFill fill) box = takeLeft (width box) fill
