@@ -32,4 +32,21 @@ tidytable =
 type TidyTable =
 HList (VTuple [Cell, VList])
 
+
+validate :: Grammar -> Box -> Bool
+validate (Box grammar) box
+  | height grammar == height box && width box == width box = all $ mapGrid validate box
+  | otherwise = False
+validate (Fill grammar) bigBox
+  | height grammar == height box = validate grammar box && validate rest
+  | width grammar == width grid = validate grammar box && validate rest
+  | width grammar == 0 || height fill == 0 = True
+  | otherwise = False
+  where
+    box, rest = splitFill fill bigBox
+
+splitFill :: Fill -> Box -> (Box, Fill)
+splitFill (LeftFill fill) box = takeLeft (width box) fill
+splitFill (DownFill fill) box = takeDown (width box) fill
+
 main = do putStr "3"
