@@ -27,18 +27,16 @@ data Grammar = HTuple [Grammar] | VTuple [Grammar]
              | Atom GridSpec
 
 
--- | Must have the same dimensions
---
-validate :: GridSpec -> Grid -> Bool
-validate gridspec grid
+
+matches :: Grammar -> Grid -> Bool
+matches (HTuple g:gs) grid = matches g grid && matches gs grid
+matches (VTuple g:gs) grid = matches g grid && matches gs grid
+matches (HList g) grid = 
+matches (Atom (GridSpec gridspec)) grid
   | not (validDimensions = width gridspec == width grid && height gridspec == height grid) = False
   | height gridspec == 0 = True
   | height gridspec == 1 = (head (head gridspec)) (head (head grid)) && validate (tail (head gridspec)) (tail (head grid))
   | otherwise = validate (tail gridspec) (tail grid)
-
-matches :: Grammar -> Grid -> Bool
-matches (Atom (GridSpec gridspec)) grid = validate gridspec grid
-
 
 
 
