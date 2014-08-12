@@ -7,16 +7,28 @@ type CellSpec = Cell -> Bool
 data GridSpec = GridSpec (Box CellSpec)
 
 -- | Construct a box. Check that the component rows are all of the same length.
-box :: [[a]] -> Maybe Box a
-box listing = Box listing
+assembleBox :: [[a]] -> Maybe Box a
+assembleBox listing = Box listing
 
 -- | The width of a box
 width :: Box a -> Int
-width row1:_ = length row1
+width (Box row1:_) = length row1
 
 -- | The height of a box
 height :: Box a -> Int
-height box = length box
+height (Box box) = length box
+
+dropColumns :: Int -> Box a -> Box a
+dropColumns n (Box box) = assembleBox $ map (drop n) box
+
+dropRows :: Int -> Box a -> Box a
+dropRows n (Box box) = assembleBox $ drop n box
+
+takeColumns :: Int -> Box a -> Box a
+takeColumns n (Box box) = assembleBox $ map (take n) box
+
+takeRows :: Int -> Box a -> Box a
+takeRows n (Box box) = assembleBox $ take n box
 
 -- | Grammars are one-dimensional, but they describe two-dimensional grids.
 -- Tuples are grammars of a particular length, with any specified sort of contained elements.
@@ -27,11 +39,16 @@ data Grammar = HTuple [Grammar] | VTuple [Grammar]
              | Atom GridSpec
 
 
-
+-- | Does a particular grid follow a particular grammar?
 matches :: Grammar -> Grid -> Bool
 matches (HTuple g:gs) grid = matches g grid && matches gs grid
 matches (VTuple g:gs) grid = matches g grid && matches gs grid
-matches (HList g) grid = 
+matches (HList grammar) grid = matches grammar (takeColumns w grid) && matches grammar (dropColumns w grid)
+  where
+    w = width grammar
+matches (VList grammar) grid = matches grammar (takeRows h grid) && matches grammar (dropRows h grid)
+  where
+    h = height grammar
 matches (Atom (GridSpec gridspec)) grid
   | not (validDimensions = width gridspec == width grid && height gridspec == height grid) = False
   | height gridspec == 0 = True
