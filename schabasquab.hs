@@ -19,20 +19,25 @@ height :: Box a -> Int
 height box = length box
 
 -- | Grammars are one-dimensional, but they describe two-dimensional grids.
--- Tuples are ranges of a particular length, with any sort of contained elements.
--- Lists are ranges of unspecified length, with all elements being similar.
--- The cell is the atomic range.
+-- Tuples are grammars of a particular length, with any specified sort of contained elements.
+-- Lists are grammars of unspecified length, with all elements being similar.
+-- The gridspec is the atomic grammar.
 data Grammar = HTuple [Grammar] | VTuple [Grammar]
-             | HList  [Grammar] | VList [Grammar]
-             | GridSpec [[CellSpec]]
+             | HList   Grammar  | VList   Grammar
+             | Atom GridSpec
 
 
-
+-- | Must have the same dimensions
+--
+validate :: GridSpec -> Grid -> Bool
+validate gridspec grid
+  | not (validDimensions = width gridspec == width grid && height gridspec == height grid) = False
+  | height gridspec == 0 = True
+  | height gridspec == 1 = (head (head gridspec)) (head (head grid)) && validate (tail (head gridspec)) (tail (head grid))
+  | otherwise = validate (tail gridspec) (tail grid)
 
 matches :: Grammar -> Grid -> Bool
-matches (GridSpec gridspec) grid = 
-
-
+matches (Atom (GridSpec gridspec)) grid = validate gridspec grid
 
 
 
