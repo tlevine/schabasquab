@@ -7,14 +7,17 @@ type CellSpec = Cell -> Bool
 data GridSpec = GridSpec (Box CellSpec)
 
 -- | Construct a box. Check that the component rows are all of the same length.
-assembleBox :: a => [[a]] -> Maybe (Box a)
+-- assembleBox :: a => [[a]] -> Maybe (Box a)
 assembleBox (firstRow:rows)
-  | all (\row -> length row == length firstRow) rows = Just (firstRow:rows)
+  | all (\row -> length row == length firstRow) rows = Just $ Box (firstRow:rows)
   | otherwise = Nothing
+
+
+-- Maybe these need to be defined for both boxes and grammars....
 
 -- | The width of a box
 width :: Box a -> Int
-width (Box row1:_) = length row1
+width (Box (row1:_)) = length row1
 
 -- | The height of a box
 height :: Box a -> Int
@@ -43,8 +46,8 @@ data Grammar = HTuple [Grammar] | VTuple [Grammar]
 
 -- | Does a particular grid follow a particular grammar?
 matches :: Grammar -> Grid -> Bool
-matches (HTuple g:gs) grid = matches g grid && matches gs grid
-matches (VTuple g:gs) grid = matches g grid && matches gs grid
+--matches (HTuple g:gs) grid = matches g grid && matches gs grid
+--matches (VTuple g:gs) grid = matches g grid && matches gs grid
 matches (HList grammar) grid = matches grammar (takeColumns w grid) && matches grammar (dropColumns w grid)
   where
     w = width grammar
