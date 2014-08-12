@@ -1,18 +1,45 @@
 {-# LANGUAGE DataKinds #-}
 
--- | Ranges are one-dimensional selectors; they do not contain data.
+data Box a = Box [[a]]
+type Cell = String
+type Grid = Box Cell
+type CellSpec = Cell -> Bool
+data GridSpec = GridSpec (Box CellSpec)
+
+-- | Construct a box. Check that the component rows are all of the same length.
+box :: [[a]] -> Maybe Box a
+box listing = Box listing
+
+-- | The width of a box
+width :: Box a -> Int
+width row1:_ = length row1
+
+-- | The height of a box
+height :: Box a -> Int
+height box = length box
+
+-- | Grammars are one-dimensional, but they describe two-dimensional grids.
 -- Tuples are ranges of a particular length, with any sort of contained elements.
 -- Lists are ranges of unspecified length, with all elements being similar.
 -- The cell is the atomic range.
-data Sort = Header String
-          | Data String
+data Grammar = HTuple [Grammar] | VTuple [Grammar]
+             | HList  [Grammar] | VList [Grammar]
+             | GridSpec [[CellSpec]]
 
-data Range = HTuple [Range] | VTuple [Range]
-           | HList  Range | VList Range
-           | Cell (String -> Sort)
 
--- | Grids are two-dimensional data representations.
-data Grid = 
+
+
+matches :: Grammar -> Grid -> Bool
+matches (GridSpec gridspec) grid = 
+
+
+
+
+
+
+
+
+
 
 type Box = (Grid, Range)
 
