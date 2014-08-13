@@ -59,7 +59,7 @@ matches (VList grammar) grid = matches grammar (takeRows h grid) && matches gram
 matches (Atom gridspec) grid
   | not (width gridspec == width grid && height gridspec == height grid) = False
   | height gridspec == 0 = True
-  | height gridspec == 1 = (head specRow) (head valueRow) && matches [Atom $ tail specRow] [tail valueRow]
+  | height gridspec == 1 = (head specRow) (head valueRow) && matches (Atom [tail specRow]) [tail valueRow]
   | height gridspec >= 2 = matches (Atom $ takeRows 1 gridspec) (takeRows 1 grid) && matches (Atom $ dropRows 1 gridspec) (dropRows 1 grid)
   where
     specRow = head gridspec
