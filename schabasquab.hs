@@ -14,12 +14,13 @@ data Grammar = HTuple [Grammar] | VTuple [Grammar]
              | Atom (Box CellSpec)
 
 
+{-
 -- | Construct a box. Check that the component rows are all of the same length.
 assembleBox :: a => [[a]] -> Maybe (Box a)
 assembleBox (firstRow:rows)
   | all (\row -> length row == length firstRow) rows = Just (firstRow:rows)
   | otherwise = Nothing
-
+-}
 
 -- | The width of a box
 width :: Box a -> Int
