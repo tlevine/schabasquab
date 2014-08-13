@@ -52,10 +52,10 @@ matches :: Grammar -> Box CellValue -> Bool
 --matches (VTuple g:gs) grid = matches g grid && matches gs grid
 matches (HList grammar) grid = matches grammar (takeColumns w grid) && matches grammar (dropColumns w grid)
   where
-    w = width grammar
+    w = length grammar
 matches (VList grammar) grid = matches grammar (takeRows h grid) && matches grammar (dropRows h grid)
   where
-    h = height grammar
+    h = length grammar
 matches (Atom gridspec) grid
   | not (width gridspec == width grid && height gridspec == height grid) = False
   | height gridspec == 0 = True
