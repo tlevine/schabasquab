@@ -4,7 +4,6 @@
 type CellValue = String
 type CellSpec = String -> Bool
 type Box a = [[a]]
-data Grid = GridValue (Box Cell) | GridSpec (Box CellSpec)
 
 -- | Grammars are one-dimensional, but they describe two-dimensional grids.
 -- Tuples are grammars of a particular length, with any specified sort of contained elements.
@@ -12,7 +11,7 @@ data Grid = GridValue (Box Cell) | GridSpec (Box CellSpec)
 -- The gridspec is the atomic grammar.
 data Grammar = HTuple [Grammar] | VTuple [Grammar]
              | HList   Grammar  | VList   Grammar
-             | Atom GridSpec
+             | Atom (Box CellSpec)
 
 
 -- | Construct a box. Check that the component rows are all of the same length.
@@ -40,14 +39,14 @@ dropRows = drop
 
 -- | Keep columns from the left
 takeColumns :: Int -> Box a -> Box a
-takeColumns n (Box box) = map (take n) box
+takeColumns n box = map (take n) box
 
 -- | Keep rows from the top
 takeRows :: Int -> Box a -> Box a
 takeRows = take
 
 -- | Does a particular grid follow a particular grammar?
-matches :: Grammar -> Grid -> Bool
+matches :: Grammar -> Box CellValue -> Bool
 --matches (HTuple g:gs) grid = matches g grid && matches gs grid
 --matches (VTuple g:gs) grid = matches g grid && matches gs grid
 matches (HList grammar) grid = matches grammar (takeColumns w grid) && matches grammar (dropColumns w grid)
