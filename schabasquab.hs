@@ -56,12 +56,13 @@ matches (HList grammar) grid = matches grammar (takeColumns w grid) && matches g
 matches (VList grammar) grid = matches grammar (takeRows h grid) && matches grammar (dropRows h grid)
   where
     h = height grammar
-{-
-matches (Atom (GridSpec gridspec)) grid
-  | not (validDimensions = width gridspec == width grid && height gridspec == height grid) = False
+matches (Atom gridspec) grid
+  | not (width gridspec == width grid && height gridspec == height grid) = False
   | height gridspec == 0 = True
-  | height gridspec == 1 = (head (head gridspec)) (head (head grid)) && validate (tail (head gridspec)) (tail (head grid))
-  | otherwise = validate (tail gridspec) (tail grid)
--}
+  | height gridspec == 1 = (head specRow) (head valueRow) && matches [tail specRow] [tail valueRow]
+  where
+    specRow = head gridspec
+    valueRow = head grid
+  | height gridspec >= 2 = matches (takeRows 1 gridspec) (takeRows 1 grid) && matches (dropRows 1 gridspec) (dropRows 1 grid)
 
 main = do putStr "3"
