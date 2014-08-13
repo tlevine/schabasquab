@@ -1,39 +1,10 @@
 {-# LANGUAGE DataKinds #-}
 
-data Box a = Box [[a]]
-type Cell = String
-type Grid = Box Cell
-type CellSpec = Cell -> Bool
-data GridSpec = GridSpec (Box CellSpec)
 
--- | Construct a box. Check that the component rows are all of the same length.
--- assembleBox :: a => [[a]] -> Maybe (Box a)
-assembleBox (firstRow:rows)
-  | all (\row -> length row == length firstRow) rows = Just $ Box (firstRow:rows)
-  | otherwise = Nothing
-
-
--- Maybe these need to be defined for both boxes and grammars....
-
--- | The width of a box
-width :: Box a -> Int
-width (Box (row1:_)) = length row1
-
--- | The height of a box
-height :: Box a -> Int
-height (Box box) = length box
-
-dropColumns :: Int -> Box a -> Box a
-dropColumns n (Box box) = assembleBox $ map (drop n) box
-
-dropRows :: Int -> Box a -> Box a
-dropRows n (Box box) = assembleBox $ drop n box
-
-takeColumns :: Int -> Box a -> Box a
-takeColumns n (Box box) = assembleBox $ map (take n) box
-
-takeRows :: Int -> Box a -> Box a
-takeRows n (Box box) = assembleBox $ take n box
+type CellValue = String
+type CellSpec = String -> Bool
+type Box a = [[a]]
+data Grid = GridValue (Box Cell) | GridSpec (Box CellSpec)
 
 -- | Grammars are one-dimensional, but they describe two-dimensional grids.
 -- Tuples are grammars of a particular length, with any specified sort of contained elements.
@@ -43,6 +14,37 @@ data Grammar = HTuple [Grammar] | VTuple [Grammar]
              | HList   Grammar  | VList   Grammar
              | Atom GridSpec
 
+
+-- | Construct a box. Check that the component rows are all of the same length.
+assembleBox :: a => [[a]] -> Maybe (Box a)
+assembleBox (firstRow:rows)
+  | all (\row -> length row == length firstRow) rows = Just (firstRow:rows)
+  | otherwise = Nothing
+
+
+-- | The width of a box
+width :: Box a -> Int
+width (row1:_) = length row1
+
+-- | The height of a box
+height :: Box a -> Int
+height = length
+
+-- | Remove columns from the left
+dropColumns :: Int -> Box a -> Box a
+dropColumns n (box) = map (drop n) box
+
+-- | Remove rows from the top
+dropRows :: Int -> Box a -> Box a
+dropRows = drop
+
+-- | Keep columns from the left
+takeColumns :: Int -> Box a -> Box a
+takeColumns n (Box box) = map (take n) box
+
+-- | Keep rows from the top
+takeRows :: Int -> Box a -> Box a
+takeRows = take
 
 -- | Does a particular grid follow a particular grammar?
 matches :: Grammar -> Grid -> Bool
