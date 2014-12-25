@@ -1,0 +1,9 @@
+Ideas
+
+* Ignore empty rows
+* Rows with only bold are headers.
+  * First bold in a column is the section.
+  * Second bold is the sub-section.
+* Row with one bold and many roman ("Estimated Full") is an aggregate.
+  * Same sections and sub-sections
+* What output data structure?
