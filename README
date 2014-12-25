@@ -1,1 +1,39 @@
-A grammar for grids, inspired by XYPath
+I'm toying with the idea of a grammar for grids, inspired by XYPath.
+My original idea involved implementing a language sort of like the following.
+
+The language has lists, tuples, and variables.
+
+* "[]" is list.
+* "()" is tuple.
+* "$x" is a variable.
+
+Lists and tuples can go in both directions.
+
+* "\above[ \below]" is a vertical list
+* "\left( \right)" is a horizontal tuple
+* and so on
+
+Variables are sub-grammars. They are either match functions for single cells,
+which are defined in some other language as functions that return either true
+or false; or they are ranges of cells matching a grammar defined in the present
+language.
+
+Let's look at some examples.
+
+This is how we could represent a two-column table that maps keys in the left
+column to values in the right column.
+
+    \above[ \left( $key $value \right) \below]
+
+This is a tidy data table. It has a bunch of columns. Each column has a header
+cell at the top and a bunch of value cells below.
+
+    \left[ \above( $header \above[ $value \below] \below) \right]
+
+Here we parse a compicated spreadsheet with two-columns groups of mappings and
+with multiple groups per sheet.
+
+    $pair = \left( $key $value \right)
+    $row = \left( $pair $pair \right)
+    $group = \above[ $row \below]
+    $sheet = \above[ $group \below]
