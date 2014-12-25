@@ -7,3 +7,33 @@ Ideas
 * Row with one bold and many roman ("Estimated Full") is an aggregate.
   * Same sections and sub-sections
 * What output data structure?
+
+What if the goal is just to find the horizontal and vertical divisions
+of things? We write one-dimensional parsers for the rows and the columns
+and thus divide the grid into many sub-grids.
+
+For the present sheet, here are the row types. These appear in blocks;
+all of the sheet headers come first, then come all the column headers,
+then aggregates, then body rows.
+
+Sheet header
+    The first cell is bold, and all other cells are empty. 
+Column header
+    All cells in the row are either bold or empty.
+Aggregate
+    The first cell, and only the first cell, is bold. Several others are roman.
+    These have equal priority in the order; we can alternate between column headers
+    and aggregates.
+Body row
+    The row has at least one filled cell, and all filled cells are roman.
+
+Here are the column types.
+
+Grouped column
+    Contains a cell that is merged to the left or to the right (or both).
+Single column
+    Contains values and contains no merged cell
+
+There are also the empty row and column, which may appear anywhere and is ignored.
+Or we could put meaning in these; for example, we could say that the body must be
+composed of alternations between six body rows and two empty rows.
