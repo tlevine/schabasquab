@@ -1,0 +1,28 @@
+Row types
+
+
+Heading
+    All filled-in cells are frozen
+Data
+    Non-frozen cells contain data.
+
+A heading of a particular style describes all subsequent rows until
+(and not including) another heading of the same style or of higher style.
+For example, "Flags & counters" describes everything until
+"Tutorial calculations".
+
+Column types
+
+Heading
+    First column
+Unit
+    Second column
+Input
+    Third and fourth columns
+Line Summary
+    Fifth and sixth columns
+Data
+    Remaining columns
+
+Cell types can be determined based on the style guide.
+
