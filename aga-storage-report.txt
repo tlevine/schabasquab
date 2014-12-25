@@ -37,3 +37,7 @@ Single column
 There are also the empty row and column, which may appear anywhere and is ignored.
 Or we could put meaning in these; for example, we could say that the body must be
 composed of alternations between six body rows and two empty rows.
+
+After we do all this, we wind up with 4 row types x 2 column types = 8 cell group
+types. We could parse rows and columns separately to come up with headers and then
+pass them to the two dimensional groups. Hmm...
