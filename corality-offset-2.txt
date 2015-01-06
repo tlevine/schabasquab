@@ -1,0 +1,19 @@
+Primitive cell types
+
+* Header 1
+* Header 2
+* Input
+* Demo
+* Empty_cell
+* Off-Sheet 
+* Total
+* Unit / Info
+* Line Summary
+* Table Header
+* Flag
+* Balance
+
+and *Nothing*
+
+
+Compount types
