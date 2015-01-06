@@ -13,7 +13,23 @@ Primitive cell types
 * Flag
 * Balance
 
-and *Nothing*
+also Normal and *Nothing*
 
 
-Compount types
+Compound types
+--------------------------------
+
+First column should match this
+
+    FirstColumn = \top[ Section \bottom]
+    Section = \top(Heading1, \top[ Subsection \bottom] \bottom)
+    Subsection = \top(Heading2, \top[ Item \bottom], Nothing \bottom)
+    Item = Normal
+
+Using the rows that are defined by the above groupings, specify constraints.
+I'm using R matrix indexing syntax.
+
+    all(sapply(is.nothing, fillRight(Section)[1,-(1:5)])) # empty
+    all(sapply(is.nothing, fillRight(SubSection)[1,-(1:5)])) # empty
+    length(set(sapply(type, fillRight(SubSection)[1,-(1:5)]))) == 1 # only one type
+
