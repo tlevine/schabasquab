@@ -33,3 +33,23 @@ I'm using R matrix indexing syntax.
     all(sapply(is.nothing, fillRight(SubSection)[1,-(1:5)])) # empty
     length(set(sapply(type, fillRight(SubSection)[1,-(1:5)]))) == 1 # only one type
 
+Hmm, there's a better way.
+
+    boxes(Section) = \left( \left[ Unit | Nothing \rightm],
+                            \left[ TableHeader | Input | Nothing \rightm],
+                            \left[ TableHeader | Normal | Nothing \rightm],
+                            \left[ Nothing \rightm],
+                            \left[ TableHeader | LineSummary | EmptyCell | Nothing \rightm],
+                            \left[ TableHeader | Input | LineSummary | EmptyCell | Nothing \right],
+                            bodyGrid \right)
+    bodyGrid = function(grid) {
+      if (ncol(grid) != 2) {
+        return(FALSE)
+      } else if (more than one Balance) {
+        return(FALSE)
+      } else if (anything is of type other than (Normal | Flag) {
+        return(FALSE)
+      } else {
+        return(TRUE)
+      }
+    }
